@@ -5,6 +5,8 @@ import {
   FormControl,
   FormLabel,
   Select,
+  Box,
+  Button
 } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Asset } from '../../../models/Asset';
@@ -12,6 +14,7 @@ import { Asset } from '../../../models/Asset';
 interface AssetFormProps {
   asset: Asset;
   isEditMode: boolean;
+  setEditMode: (isEditMode: boolean) => void;
 }
 
 type FormData = {
@@ -21,7 +24,7 @@ type FormData = {
 
 const status = ['inAlert', 'inOperation', 'inDowntime'];
 
-export function AssetForm({ asset, isEditMode }: AssetFormProps) {
+export function AssetForm({ asset, isEditMode, setEditMode }: AssetFormProps) {
   const {
     register,
     handleSubmit,
@@ -65,6 +68,17 @@ export function AssetForm({ asset, isEditMode }: AssetFormProps) {
           </Select>
         </FormControl>
       </Stack>
+
+      {isEditMode && (
+        <Box mt="8" display="flex" alignItems="center" justifyContent="flex-end">
+          <Button type="button" colorScheme="gray" mr="2" onClick={() => setEditMode(false)}>
+            Cancel
+          </Button>
+          <Button type="submit" colorScheme="green">
+            Save
+          </Button>
+        </Box>
+      )}
     </Flex>
   );
 }

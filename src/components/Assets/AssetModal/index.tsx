@@ -57,7 +57,11 @@ export function AssetModal({ isOpen, onClose, asset }: AssetModalProps) {
             </SimpleGrid>
           </Box>
 
-          <AssetForm isEditMode={isEditMode} asset={asset} />
+          <AssetForm
+            isEditMode={isEditMode}
+            setEditMode={setEditMode}
+            asset={asset}
+          />
         </ModalBody>
 
         <ModalFooter>
@@ -65,21 +69,6 @@ export function AssetModal({ isOpen, onClose, asset }: AssetModalProps) {
             <Button colorScheme="blue" onClick={() => setEditMode(true)}>
               Edit <Icon ml="2" as={RiEditLine} />
             </Button>
-          )}
-
-          {isEditMode && (
-            <>
-              <Button
-                colorScheme="gray"
-                mr="2"
-                onClick={() => setEditMode(false)}
-              >
-                Cancel
-              </Button>
-              <Button colorScheme="green" onClick={handleSubmit(onSubmit)}>
-                Save
-              </Button>
-            </>
           )}
         </ModalFooter>
       </ModalContent>
