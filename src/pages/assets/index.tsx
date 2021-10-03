@@ -1,61 +1,58 @@
-import {
-  Flex,
-  Grid,
-  Box,
-  Image,
-  Text,
-  Badge,
-  CircularProgress,
-  CircularProgressLabel,
-} from '@chakra-ui/react';
+import { Flex, Grid, Spinner, Text, Icon, Button, Box } from '@chakra-ui/react';
 import { NextPage } from 'next';
+import { RiAddLine } from 'react-icons/ri';
+import { AssetCard } from '../../components/Assets/AssetCard';
 import { Sidebar } from '../../components/Sidebar';
+import { useAssets } from '../../services/hooks/assets/useAssets';
 
 const Assets: NextPage = () => {
+  const { data: assets, isLoading, error } = useAssets();
+
   return (
     <Flex minH="100vh" w="100%" maxWidth={1480} mx="auto" px="6">
       <Sidebar />
 
-      <Grid
-        mt="5rem"
-        align="self-start"
-        templateColumns="repeat(4, 1fr)"
-        gap="6"
-        flex="1"
-      >
-        <Box h="fit-content" shadow="lg" rounded="md" minW="350px">
-          <Image
-            src="https://tractian-img.s3.amazonaws.com/6d5028682016cb43d02b857d4f1384ae.jpeg"
-            roundedTop="md"
-            w="100%"
-            h="auto"
-          />
+      {isLoading ? (
+        <Flex w="100%" alignItems="center" justifyContent="center">
+          <Spinner size="xl" color="blue.500" />
+        </Flex>
+      ) : error ? (
+        <Flex w="100%" alignItems="center" justifyContent="center">
+          <Text fontSize="1.5rem" color="blue.500" fontWeight="medium">
+            Error on trying to get assets
+          </Text>
+        </Flex>
+      ) : (
+        <Box mt="5rem" w="100%" display="flex" flexDir="column">
+          <Button
+            as="a"
+            size="md"
+            fontSize="md"
+            cursor="pointer"
+            colorScheme="blue"
+            leftIcon={<Icon as={RiAddLine} fontSize="20" />}
+            mb="8"
+            ml="auto"
+          >
+            Create
+          </Button>
 
-          <Box p={['2', '4']}>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text fontWeight="medium">
-                Motor H13D-1
-                <Badge variant="solid" colorScheme="yellow" ml="2">
-                  In Alert
-                </Badge>
-                <Badge variant="solid" colorScheme="blue" ml="2">
-                  Motor
-                </Badge>
-              </Text>
-
-              <CircularProgress
-                value={70}
-                color="blue.500"
-                trackColor="blue.50"
-              >
-                <CircularProgressLabel fontWeight="bold" color="blue.500">
-                  70%
-                </CircularProgressLabel>
-              </CircularProgress>
-            </Flex>
-          </Box>
+          <Grid
+            align="center"
+            templateColumns={{
+              sm: 'repeat(1, 1fr)',
+              md: 'repeat(2, 1fr)',
+              lg: 'repeat(3, 1fr)',
+            }}
+            gap="6"
+            flex="1"
+          >
+            {assets?.map((asset) => (
+              <AssetCard key={asset.id} asset={asset} />
+            ))}
+          </Grid>
         </Box>
-      </Grid>
+      )}
     </Flex>
   );
 };
