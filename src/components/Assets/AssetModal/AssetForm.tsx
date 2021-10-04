@@ -6,10 +6,13 @@ import {
   FormLabel,
   Select,
   Box,
-  Button
+  Button,
+  useToast,
 } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import { Asset } from '../../../models/Asset';
+import { api } from '../../../services/api';
 
 interface AssetFormProps {
   asset: Asset;
@@ -19,20 +22,58 @@ interface AssetFormProps {
 
 type FormData = {
   model: string;
-  status: any;
+  status: string;
 };
 
 const status = ['inAlert', 'inOperation', 'inDowntime'];
 
 export function AssetForm({ asset, isEditMode, setEditMode }: AssetFormProps) {
+  const toast = useToast();
+
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<FormData>();
 
+  const updateAsset = useMutation(
+    async (asset: Asset) => {
+      const response = await api.put(`/assets/${asset.id}`, asset);
+
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        toast({
+          status: 'success',
+          title: 'Success',
+          description: 'Asset updated',
+          position: 'top-right',
+        });
+      },
+      onError: () => {
+        toast({
+          status: 'error',
+          title: 'Error',
+          description: 'An error ocurred while trying to update the Asset.',
+          position: 'top-right',
+        });
+      },
+    }
+  );
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
+    try {
+      const assetToUpdate: Asset = {
+        ...asset,
+        ...data,
+      };
+
+      await updateAsset.mutateAsync(assetToUpdate);
+      setEditMode(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -59,6 +100,7 @@ export function AssetForm({ asset, isEditMode, setEditMode }: AssetFormProps) {
             defaultValue={asset.status}
             variant="filled"
             {...register('status')}
+            isDisabled={!isEditMode}
           >
             {status.map((it) => (
               <option key={it} value={it}>
@@ -70,11 +112,21 @@ export function AssetForm({ asset, isEditMode, setEditMode }: AssetFormProps) {
       </Stack>
 
       {isEditMode && (
-        <Box mt="8" display="flex" alignItems="center" justifyContent="flex-end">
-          <Button type="button" colorScheme="gray" mr="2" onClick={() => setEditMode(false)}>
+        <Box
+          mt="8"
+          display="flex"
+          alignItems="center"
+          justifyContent="flex-end"
+        >
+          <Button
+            type="button"
+            colorScheme="gray"
+            mr="2"
+            onClick={() => setEditMode(false)}
+          >
             Cancel
           </Button>
-          <Button type="submit" colorScheme="green">
+          <Button type="submit" colorScheme="green" isLoading={isSubmitting}>
             Save
           </Button>
         </Box>

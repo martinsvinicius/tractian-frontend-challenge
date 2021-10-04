@@ -1,15 +1,28 @@
-import { Flex, Grid, Spinner, Text, Icon, Button, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  Grid,
+  Spinner,
+  Text,
+  Icon,
+  Button,
+  Box,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { NextPage } from 'next';
 import { RiAddLine } from 'react-icons/ri';
 import { AssetCard } from '../../components/Assets/AssetCard';
+import { CreateAssetModal } from '../../components/Assets/CreateAssetModal';
 import { Sidebar } from '../../components/Sidebar';
 import { useAssets } from '../../services/hooks/assets/useAssets';
 
 const Assets: NextPage = () => {
   const { data: assets, isLoading, error } = useAssets();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <Flex minH="100vh" w="100%" maxWidth={1480} mx="auto" px="6">
+      <CreateAssetModal isOpen={isOpen} onClose={onClose} />
+
       <Sidebar />
 
       {isLoading ? (
@@ -33,6 +46,7 @@ const Assets: NextPage = () => {
             leftIcon={<Icon as={RiAddLine} fontSize="20" />}
             mb="8"
             ml="auto"
+            onClick={onOpen}
           >
             Create
           </Button>
