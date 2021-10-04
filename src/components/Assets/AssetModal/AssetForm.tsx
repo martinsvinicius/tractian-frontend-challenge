@@ -1,7 +1,6 @@
 import {
   Flex,
   Stack,
-  Input,
   FormControl,
   FormLabel,
   Select,
@@ -13,6 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { Asset } from '../../../models/Asset';
 import { api } from '../../../services/api';
+import { Input } from '../../Form/Input';
 
 interface AssetFormProps {
   asset: Asset;
@@ -23,6 +23,8 @@ interface AssetFormProps {
 type FormData = {
   model: string;
   status: string;
+  unitId: number;
+  companyId: number;
 };
 
 const status = ['inAlert', 'inOperation', 'inDowntime'];
@@ -109,6 +111,24 @@ export function AssetForm({ asset, isEditMode, setEditMode }: AssetFormProps) {
             ))}
           </Select>
         </FormControl>
+
+        <Input
+          type="number"
+          label="Unit ID"
+          {...register('unitId')}
+          autoComplete="off"
+          defaultValue={asset.unitId}
+          isReadOnly={!isEditMode}
+        />
+
+        <Input
+          type="number"
+          label="Company ID"
+          {...register('companyId')}
+          autoComplete="off"
+          defaultValue={asset.companyId}
+          isReadOnly={!isEditMode}
+        />
       </Stack>
 
       {isEditMode && (
