@@ -9,6 +9,7 @@ import {
   Icon,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { RiPencilLine } from 'react-icons/ri';
 import { Unit } from '../../../models/Unit';
 import { EditUnitModal } from '../EditUnitModal';
@@ -20,8 +21,17 @@ interface UnitsTableProps {
 export function UnitsTable({ units }: UnitsTableProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [currentUnit, setCurrentUnit] = useState<Unit>({} as Unit);
+
+  function handleEditUnit(unit: Unit) {
+    setCurrentUnit(unit);
+    onOpen();
+  }
+
   return (
     <Table colorScheme="blackAlpha" size="lg">
+      <EditUnitModal isOpen={isOpen} onClose={onClose} unit={currentUnit} />
+
       <Thead>
         <Tr>
           <Th>#</Th>
@@ -45,13 +55,11 @@ export function UnitsTable({ units }: UnitsTableProps) {
                 cursor="pointer"
                 colorScheme="blue"
                 leftIcon={<Icon as={RiPencilLine} fontSize="18" />}
-                onClick={onOpen}
+                onClick={() => handleEditUnit(unit)}
               >
                 Edit
               </Button>
             </Td>
-
-            <EditUnitModal isOpen={isOpen} onClose={onClose} unit={unit} />
           </Tr>
         ))}
       </Tbody>
