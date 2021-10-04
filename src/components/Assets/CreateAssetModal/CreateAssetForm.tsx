@@ -11,6 +11,7 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { api } from '../../../services/api';
+import { queryClient } from '../../../services/query/queryClient';
 import { Input } from '../../Form/Input';
 
 type FormData = {
@@ -51,6 +52,7 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
           description: 'Asset created',
           position: 'top-right',
         });
+        queryClient.invalidateQueries('assets');
       },
       onError: () => {
         toast({
@@ -65,8 +67,7 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await createAsset.mutateAsync(data);
-      console.log(response);
+      await createAsset.mutateAsync(data);
       onCloseModal();
     } catch (error) {
       console.log(error);
@@ -87,10 +88,7 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
           <FormLabel htmlFor="status" fontSize="1.2rem">
             Status
           </FormLabel>
-          <Select
-            variant="filled"
-            {...register('status')}
-          >
+          <Select variant="filled" {...register('status')}>
             {status.map((it) => (
               <option key={it} value={it}>
                 {it}
