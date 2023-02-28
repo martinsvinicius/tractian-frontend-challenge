@@ -1,10 +1,10 @@
 import { Stack } from '@chakra-ui/react';
 import {
-  RiBriefcase4Line,
   RiBuilding4Line,
   RiDashboardLine,
   RiSettings5Line,
   RiUser3Line,
+  RiCheckLine
 } from 'react-icons/ri';
 import { NavLink } from './NavLink';
 import { NavSection } from './NavSection';
@@ -25,8 +25,8 @@ export function SidebarNav() {
         <NavLink href="/users" icon={RiUser3Line}>
           Users
         </NavLink>
-        <NavLink href="/companies" icon={RiBriefcase4Line}>
-          Companies
+        <NavLink href="/workorders" icon={RiCheckLine}>
+          Orders
         </NavLink>
       </NavSection>
     </Stack>

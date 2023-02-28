@@ -61,7 +61,7 @@ const Assets: NextPage = () => {
             gap="6"
             flex="1"
           >
-            {assets?.map((asset) => (
+            {assets?.map && assets.map((asset) => (
               <AssetCard key={asset.id} asset={asset} />
             ))}
           </Grid>

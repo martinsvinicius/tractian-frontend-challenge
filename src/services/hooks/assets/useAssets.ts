@@ -9,7 +9,5 @@ export async function getAssets(): Promise<Asset[]> {
 }
 
 export function useAssets() {
-  return useQuery('assets', getAssets, {
-    staleTime: 1000 * 60 * 5, //5 minutes
-  });
+  return useQuery('assets', getAssets);
 }

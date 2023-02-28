@@ -51,6 +51,7 @@ export function AssetCard({ asset }: AssetCardProps) {
           w="100%"
           h="auto"
           maxH="260px"
+          alt={asset.name}
         />
 
         <Box p={['2', '4']}>
