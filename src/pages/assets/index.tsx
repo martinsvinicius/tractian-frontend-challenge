@@ -38,7 +38,6 @@ const Assets: NextPage = () => {
       ) : (
         <Box mt="5rem" w="100%" display="flex" flexDir="column">
           <Button
-            as="a"
             size="md"
             fontSize="md"
             cursor="pointer"
@@ -47,6 +46,7 @@ const Assets: NextPage = () => {
             mb="8"
             ml="auto"
             onClick={onOpen}
+            id="create-asset-button"
           >
             Create
           </Button>

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.8",
@@ -14,6 +15,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "axios": "^0.22.0",
+    "cypress": "^12.7.0",
     "framer-motion": "^4",
     "highcharts": "^9.2.2",
     "highcharts-react-official": "^3.0.0",

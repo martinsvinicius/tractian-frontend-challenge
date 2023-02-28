@@ -47,6 +47,7 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
     {
       onSuccess: () => {
         toast({
+          id: 'create-asset-success-toast',
           status: 'success',
           title: 'Success',
           description: 'Asset created',
@@ -75,9 +76,16 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
   };
 
   return (
-    <Flex as="form" my="4" onSubmit={handleSubmit(onSubmit)} flexDir="column">
+    <Flex
+      as="form"
+      my="4"
+      onSubmit={handleSubmit(onSubmit)}
+      flexDir="column"
+      id="create-asset-form"
+    >
       <Stack w="100%" spacing="4">
         <Input
+          id="asset-model-input"
           label="Model"
           {...register('model')}
           autoComplete="off"
@@ -88,7 +96,11 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
           <FormLabel htmlFor="status" fontSize="1.2rem">
             Status
           </FormLabel>
-          <Select variant="filled" {...register('status')}>
+          <Select
+            variant="filled"
+            {...register('status')}
+            id="asset-status-select"
+          >
             {status.map((it) => (
               <option key={it} value={it}>
                 {it}
@@ -98,18 +110,21 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
         </FormControl>
 
         <Input
+          id="asset-name-input"
           label="Name"
           {...register('name')}
           autoComplete="off"
           placeholder="Ex: Motor H13D-1"
         />
         <Input
+          id="asset-image-input"
           label="Image URL"
           {...register('image')}
           autoComplete="off"
           placeholder="Ex: example.com/image.jpg"
         />
         <Input
+          id="asset-unit-id-input"
           type="number"
           label="Unit ID"
           {...register('unitId')}
@@ -117,6 +132,7 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
           placeholder="Ex: 1"
         />
         <Input
+          id="asset-company-id-input"
           type="number"
           label="Company ID"
           {...register('companyId')}
@@ -129,7 +145,12 @@ export function CreateAssetForm({ onCloseModal }: CreateAssetFormProps) {
         <Button type="button" colorScheme="gray" mr="2" onClick={onCloseModal}>
           Cancel
         </Button>
-        <Button type="submit" colorScheme="green" isLoading={isSubmitting}>
+        <Button
+          type="submit"
+          colorScheme="green"
+          isLoading={isSubmitting}
+          id="create-asset-submit-button"
+        >
           Save
         </Button>
       </Box>
