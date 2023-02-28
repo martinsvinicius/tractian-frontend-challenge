@@ -42,6 +42,7 @@ const Dashboard: NextPage = () => {
             name: asset.name,
             y: asset.healthscore,
           })),
+          type: 'column',
         },
       ],
     };
